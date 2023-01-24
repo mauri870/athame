@@ -112,34 +112,29 @@ fi
 
 #Download zsh
 if [ $redownload = 1 ]; then
-  rm -r zsh-5.7.1.tar.xz
+  rm -r zsh-5.9.tar.xz
 fi
-if [ ! -f zsh-5.7.1.tar.xz ]; then
-  curl -O https://www.zsh.org/pub/zsh-5.7.1.tar.xz
-  head -n 3 zsh-5.7.1.tar.xz | grep "404 Not Found" > /dev/null
+if [ ! -f zsh-5.9.tar.xz ]; then
+  curl -O https://www.zsh.org/pub/zsh-5.9.tar.xz
+  head -n 3 zsh-5.9.tar.xz | grep "404 Not Found" > /dev/null
   if [ $? -eq 0 ]; then
-    curl -O https://www.zsh.org/pub/old/zsh-5.7.1.tar.xz
+    curl -O https://www.zsh.org/pub/old/zsh-5.9.tar.xz
   fi
 fi
-if [ "$(md5sum zsh-5.7.1.tar.xz 2>/dev/null)" != "374f9fdd121b5b90e07abfcad7df0627  zsh-5.7.1.tar.xz" ] && [ "$(md5 zsh-5.7.1.tar.xz 2>/dev/null)" != "MD5 (zsh-5.7.1.tar.xz) = 374f9fdd121b5b90e07abfcad7df0627" ]; then
-  #rm zsh-5.7.1.tar.xz
-  echo "FAILED: Incorrect md5 hash" >&2
-  exit 1
-fi
 
-if [ ! -d zsh-5.7.1_tmp ]; then
+if [ ! -d zsh-5.9_tmp ]; then
   dirty=0
 fi
 
 #Unpack zsh dir
 if [ $dirty = 0 ]; then
-  rm -rf zsh-5.7.1_tmp
-  tar -xf zsh-5.7.1.tar.xz
-  mv zsh-5.7.1 zsh-5.7.1_tmp
+  rm -rf zsh-5.9_tmp
+  tar -xf zsh-5.9.tar.xz
+  mv zsh-5.9 zsh-5.9_tmp
 fi
 
 #Patch Zsh with Athame
-cd zsh-5.7.1_tmp
+cd zsh-5.9_tmp
 if [ $athame = 1 ]; then
   if [ $dirty = 0 ]; then
     ../athame_patcher.sh zsh .. || exit 1
